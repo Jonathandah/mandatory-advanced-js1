@@ -58,6 +58,7 @@ class App extends Component {
       console.log(response);
     });
 
+    this.setState({message: ""});
 
   }
 
@@ -71,7 +72,7 @@ class App extends Component {
           </ul>
         </main>
         <div className = "chat__inputfield">
-          <input className="chat__inputfield__input" type="text" value={this.state.value} onChange={this.onChange}></input>
+          <input className="chat__inputfield__input" type="text" value={this.state.message} onChange={this.onChange}></input>
           <button className="chat__inputfield__sendButton" onClick={this.onClick}>Send</button>
         </div>
       </div>
