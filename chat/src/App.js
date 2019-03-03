@@ -37,8 +37,10 @@ class App extends Component {
     console.log(item);
     return(
       <li className="chat__main__list__item" key={item.id}>
-        <p className="chat__main__list__item__username" >{item.username}</p>
-        <p className="chat__main__list__item__content">{item.content}</p>
+      <div className="chat__main__list__item__container">
+        <p className="chat__main__list__item__container__username" >{item.username}</p>
+        <p className="chat__main__list__item__container__content">{item.content}</p>
+      </div>
       </li>
     )
   }
