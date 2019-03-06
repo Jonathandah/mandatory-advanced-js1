@@ -1,12 +1,15 @@
 import React, { Component } from 'react';
 import './App.css';
 import io from 'socket.io-client';
+import Login from './login';
+import Chat from "./chat";
 
 const socket = io('http://ec2-13-53-66-202.eu-north-1.compute.amazonaws.com:3000');
 
 socket.on('connect', function(){
   console.log("connected");
 });
+
 
 class App extends Component {
   constructor(props){
@@ -15,13 +18,28 @@ class App extends Component {
       username: "",
       message: "",
       messages: [],
+      login: true,
     }
-    this.onChange = this.onChange.bind(this);
-    this.onClick = this.onClick.bind(this);
+    this.onChangeUsername = this.onChangeUsername.bind(this);
+    this.onLogin = this.onLogin.bind(this);
+    this.onChangeMessage = this.onChangeMessage.bind(this);
+    this.onLogin = this.onLogin.bind(this);
+    this.onSend = this.onSend.bind(this);
+  }
+  onChangeUsername(e){
+    this.setState({
+      username: e.target.value,
+    })
+  }
+
+  onLogin(){
+    this.setState({
+      login: false,
+    })
   }
 
   componentDidMount() {
-    this.socket = io('http://ec2-13-53-66-202.eu-north-1.compute.amazonaws.com:3000');
+    //socket = io('http://ec2-13-53-66-202.eu-north-1.compute.amazonaws.com:3000');
 
     socket.on("messages", (messages) => {
       this.setState({ messages: messages });
@@ -32,28 +50,17 @@ class App extends Component {
       this.setState({ messages: [...this.state.messages, message]});
     });
   }
-
-  createLi(item){
-    console.log(item);
-    return(
-      <li className="chat__main__list__item" key={item.id}>
-      <div className="chat__main__list__item__container">
-        <p className="chat__main__list__item__container__username" >{item.username}</p>
-        <p className="chat__main__list__item__container__content">{item.content}</p>
-      </div>
-      </li>
-    )
+  onChangeMessage(e){
+    this.setState({
+      message: e.target.value,
+    })
   }
 
-  onChange(e){
-    this.setState({message: e.target.value});
-  }
-
-  onClick(e){
+  onSend(e){
     console.log("onclick körs");
-
+    console.log(this.state.message);
     socket.emit("message", {
-      username: "jonathan",
+      username: this.state.username,
       content: this.state.message,
     }, (response) => {
         this.setState({ messages: [...this.state.messages, response.data.newMessage]});
@@ -63,20 +70,10 @@ class App extends Component {
     this.setState({message: ""});
 
   }
-
   render() {
     return (
-      <div className="chat">
-        <header className="chat__header"></header>
-        <main className="chat__main">
-          <ul className="chat__main__list">
-            {this.state.messages.map(item => this.createLi(item))}
-          </ul>
-        </main>
-        <div className = "chat__inputfield">
-          <input className="chat__inputfield__input" type="text" value={this.state.message} onChange={this.onChange}></input>
-          <button className="chat__inputfield__sendButton" onClick={this.onClick}>Send</button>
-        </div>
+      <div className="app">
+      {this.state.login === true ? <Login onChangeUsername={this.onChangeUsername} username={this.state.username} onLogin={this.onLogin} /> : <Chat onChangeMessage={this.onChangeMessage} message={this.state.message} messages={this.state.messages} onSend={this.onSend} /> }
       </div>
     );
   }
