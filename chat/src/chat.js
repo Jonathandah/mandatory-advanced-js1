@@ -1,17 +1,31 @@
 import React, { Component } from 'react';
 
 class Chat extends Component{    
-      createLi(item){
-        console.log(item);
-        return(
-          <li className="chat__main__list__item" key={item.id}>
-          <div className="chat__main__list__item__container">
-            <p className="chat__main__list__item__container__username" >{item.username}</p>
-            <p className="chat__main__list__item__container__content">{item.content}</p>
-          </div>
-          </li>
-        )
-      }
+    createLi(item){
+
+        
+        if(item.username === this.props.username){
+            console.log(item.username);
+            console.log(this.props.username);
+            return(
+            <li className="chat__main__list__item--userMessage" key={item.id}>
+                <div className="chat__main__list__item__container--userMessage">
+                    <p className="chat__main__list__item__container__username" >{item.username}</p>
+                    <p className="chat__main__list__item__container__content">{item.content}</p>
+                </div>
+            </li>
+            )
+        }else{
+            return(
+                <li className="chat__main__list__item" key={item.id}>
+                    <div className="chat__main__list__item__container">
+                        <p className="chat__main__list__item__container__username" >{item.username}</p>
+                        <p className="chat__main__list__item__container__content">{item.content}</p>
+                    </div>
+                </li>
+            )
+        }
+    }
 
     render(){
         return(

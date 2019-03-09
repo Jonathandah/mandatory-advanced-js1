@@ -57,14 +57,13 @@ class App extends Component {
   }
 
   onSend(e){
-    console.log("onclick körs");
     console.log(this.state.message);
     socket.emit("message", {
       username: this.state.username,
       content: this.state.message,
     }, (response) => {
         this.setState({ messages: [...this.state.messages, response.data.newMessage]});
-      console.log(response);
+        console.log(response);
     });
 
     this.setState({message: ""});
@@ -73,7 +72,7 @@ class App extends Component {
   render() {
     return (
       <div className="app">
-      {this.state.login === true ? <Login onChangeUsername={this.onChangeUsername} username={this.state.username} onLogin={this.onLogin} /> : <Chat onChangeMessage={this.onChangeMessage} message={this.state.message} messages={this.state.messages} onSend={this.onSend} /> }
+      {this.state.login === true ? <Login onChangeUsername={this.onChangeUsername} username={this.state.username} onLogin={this.onLogin} /> : <Chat onChangeMessage={this.onChangeMessage} message={this.state.message} messages={this.state.messages} onSend={this.onSend} username={this.state.username} /> }
       </div>
     );
   }
