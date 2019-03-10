@@ -33,9 +33,14 @@ class App extends Component {
   }
 
   onLogin(){
-    this.setState({
-      login: false,
-    })
+    let usernameRegex = /^[a-zA-Z0-9]+$/;
+    if(usernameRegex.test(this.state.username)){
+      console.log("regex funkar");
+      this.state.login === true ? this.setState({login:false}) : this.setState({login:true});
+      console.log(this.state.login);
+    }else{
+      console.log("username får inte ha åäö");
+    }
   }
 
   componentDidMount() {
@@ -72,7 +77,7 @@ class App extends Component {
   render() {
     return (
       <div className="app">
-      {this.state.login === true ? <Login onChangeUsername={this.onChangeUsername} username={this.state.username} onLogin={this.onLogin} /> : <Chat onChangeMessage={this.onChangeMessage} message={this.state.message} messages={this.state.messages} onSend={this.onSend} username={this.state.username} /> }
+        {this.state.login === true ? <Login onChangeUsername={this.onChangeUsername} username={this.state.username} onLogin={this.onLogin} /> : <Chat onChangeMessage={this.onChangeMessage} message={this.state.message} messages={this.state.messages} onSend={this.onSend} username={this.state.username} onLogin={this.onLogin} /> }
       </div>
     );
   }

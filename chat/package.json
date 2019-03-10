@@ -5,6 +5,8 @@
   "dependencies": {
     "react": "^16.8.3",
     "react-dom": "^16.8.3",
+    "react-emoji-render": "^0.6.0",
+    "react-linkify": "^0.2.2",
     "react-scripts": "2.1.5",
     "socket.io-client": "^2.2.0"
   },

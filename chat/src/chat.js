@@ -1,17 +1,20 @@
 import React, { Component } from 'react';
+import Emoji from 'react-emoji-render';
+import Linkify from "react-linkify";
 
-class Chat extends Component{    
+class Chat extends Component{
     createLi(item){
-
-        
         if(item.username === this.props.username){
-            console.log(item.username);
-            console.log(this.props.username);
+            console.log(item.content);
             return(
             <li className="chat__main__list__item--userMessage" key={item.id}>
                 <div className="chat__main__list__item__container--userMessage">
                     <p className="chat__main__list__item__container__username" >{item.username}</p>
-                    <p className="chat__main__list__item__container__content">{item.content}</p>
+                    <p className="chat__main__list__item__container__content">
+                        <Linkify>
+                            <Emoji text={item.content}/>
+                        </Linkify>
+                    </p>
                 </div>
             </li>
             )
@@ -20,7 +23,11 @@ class Chat extends Component{
                 <li className="chat__main__list__item" key={item.id}>
                     <div className="chat__main__list__item__container">
                         <p className="chat__main__list__item__container__username" >{item.username}</p>
-                        <p className="chat__main__list__item__container__content">{item.content}</p>
+                        <p className="chat__main__list__item__container__content">
+                        <Linkify>
+                            <Emoji text={item.content}/>
+                        </Linkify>
+                        </p>
                     </div>
                 </li>
             )
@@ -28,9 +35,12 @@ class Chat extends Component{
     }
 
     render(){
+        console.log(this.props.messages);
         return(
             <div className="chat">
-                <header className="chat__header"></header>
+                <header className="chat__header">
+                    <button className="chat__header__signout" onClick={this.props.onLogin}>Signout</button>
+                </header>
                 <main className="chat__main">
                     <ul className="chat__main__list">
                         {this.props.messages.map(item => this.createLi(item))}
