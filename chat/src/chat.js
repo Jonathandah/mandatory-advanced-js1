@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import Emoji from 'react-emoji-render';
+import Emoji from 'react-emojione';
 import Linkify from "react-linkify";
+//import ScrollToBottom from "react-scroll-to-bottom";
 
 class Chat extends Component{
     createLi(item){
@@ -12,7 +13,7 @@ class Chat extends Component{
                     <p className="chat__main__list__item__container__username" >{item.username}</p>
                     <p className="chat__main__list__item__container__content">
                         <Linkify>
-                            <Emoji text={item.content}/>
+                            <Emoji>{item.content}</Emoji>
                         </Linkify>
                     </p>
                 </div>
@@ -25,7 +26,7 @@ class Chat extends Component{
                         <p className="chat__main__list__item__container__username" >{item.username}</p>
                         <p className="chat__main__list__item__container__content">
                         <Linkify>
-                            <Emoji text={item.content}/>
+                            <Emoji>{item.content}</Emoji>
                         </Linkify>
                         </p>
                     </div>
@@ -47,7 +48,7 @@ class Chat extends Component{
                     </ul>
                 </main>
                 <div className = "chat__inputfield">
-                    <input className="chat__inputfield__input" type="text" value={this.props.message} onChange={this.props.onChangeMessage}></input>
+                    <input className="chat__inputfield__input" type="text" value={this.props.message} onChange={this.props.onChangeMessage} required></input>
                     <button className="chat__inputfield__sendButton" onClick={this.props.onSend}>Send</button>
                 </div>
             </div>

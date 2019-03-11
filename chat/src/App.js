@@ -16,7 +16,7 @@ class App extends Component {
     super(props);
     this.state = {
       username: "",
-      message: "",
+      message: " ",
       messages: [],
       login: true,
     }
