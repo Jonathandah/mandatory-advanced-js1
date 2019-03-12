@@ -25,9 +25,9 @@ class Chat extends Component{
                     <div className="chat__main__list__item__container">
                         <p className="chat__main__list__item__container__username" >{item.username}</p>
                         <p className="chat__main__list__item__container__content">
-                        <Linkify>
-                            <Emoji>{item.content}</Emoji>
-                        </Linkify>
+                            <Linkify>
+                                <Emoji>{item.content}</Emoji>
+                            </Linkify>
                         </p>
                     </div>
                 </li>
@@ -48,8 +48,14 @@ class Chat extends Component{
                     </ul>
                 </main>
                 <div className = "chat__inputfield">
-                    <input className="chat__inputfield__input" type="text" value={this.props.message} onChange={this.props.onChangeMessage} required></input>
-                    <button className="chat__inputfield__sendButton" onClick={this.props.onSend}>Send</button>
+                    <div className = "chat__inputfield__container">
+                        <p className="chat__inputfield__errorMessage" style={{color: "white"}}>{this.props.inputError}</p>
+                    </div>
+                    
+                    <div className = "chat__inputfield__container">
+                        <input className="chat__inputfield__input" type="text" value={this.props.message} onChange={this.props.onChangeMessage} minLength="1" maxLength="200" required></input>
+                        <button className="chat__inputfield__sendButton" onClick={this.props.onSend}>Send</button>
+                    </div>
                 </div>
             </div>
         );

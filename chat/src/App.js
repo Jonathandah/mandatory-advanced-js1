@@ -16,9 +16,10 @@ class App extends Component {
     super(props);
     this.state = {
       username: "",
-      message: " ",
+      message: "",
       messages: [],
       login: true,
+      inputError: "",
     }
     this.onChangeUsername = this.onChangeUsername.bind(this);
     this.onLogin = this.onLogin.bind(this);
@@ -33,13 +34,16 @@ class App extends Component {
   }
 
   onLogin(){
-    let usernameRegex = /^[a-zA-Z0-9]+$/;
+    let usernameRegex = /^[a-zA-Z0-9\s-_]+$/;
     if(usernameRegex.test(this.state.username)){
       console.log("regex funkar");
       this.state.login === true ? this.setState({login:false}) : this.setState({login:true});
       console.log(this.state.login);
+      this.setState({
+        inputError: "",
+      })
     }else{
-      console.log("username får inte ha åäö");
+      this.setState({inputError: "Ditt användarnamn får endast innehålla 1-12 alfanumerisk tecken, \"_\", \"-\" och mellanslag."})
     }
   }
 
@@ -63,21 +67,28 @@ class App extends Component {
 
   onSend(e){
     console.log(this.state.message);
-    socket.emit("message", {
-      username: this.state.username,
-      content: this.state.message,
-    }, (response) => {
-        this.setState({ messages: [...this.state.messages, response.data.newMessage]});
-        console.log(response);
-    });
-
-    this.setState({message: ""});
+    if(this.state.message.length===0){
+      this.setState({
+        inputError: "Du måste skicka minst ett tecken",
+      })
+    }else{
+      socket.emit("message", {
+        username: this.state.username,
+        content: this.state.message,
+      }, (response) => {
+          this.setState({ messages: [...this.state.messages, response.data.newMessage], inputError: ""});
+          console.log(response);
+      });
+  
+      this.setState({message: ""});
+  
+    }
 
   }
   render() {
     return (
       <div className="app">
-        {this.state.login === true ? <Login onChangeUsername={this.onChangeUsername} username={this.state.username} onLogin={this.onLogin} /> : <Chat onChangeMessage={this.onChangeMessage} message={this.state.message} messages={this.state.messages} onSend={this.onSend} username={this.state.username} onLogin={this.onLogin} /> }
+        {this.state.login === true ? <Login onChangeUsername={this.onChangeUsername} username={this.state.username} onLogin={this.onLogin} inputError={this.state.inputError} /> : <Chat onChangeMessage={this.onChangeMessage} message={this.state.message} messages={this.state.messages} onSend={this.onSend} username={this.state.username} onLogin={this.onLogin} inputError={this.state.inputError} /> }
       </div>
     );
   }
