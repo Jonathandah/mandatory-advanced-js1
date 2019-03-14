@@ -35,7 +35,7 @@ class App extends Component {
 
   onLogin(){
     let usernameRegex = /^[a-zA-Z0-9\s-_]+$/;
-    if(usernameRegex.test(this.state.username)){
+    if(usernameRegex.test(this.state.username) && this.state.username.length !==0){
       console.log("regex funkar");
       this.state.login === true ? this.setState({login:false}) : this.setState({login:true});
       console.log(this.state.login);
@@ -69,7 +69,7 @@ class App extends Component {
     console.log(this.state.message);
     if(this.state.message.length===0){
       this.setState({
-        inputError: "Du måste skicka minst ett tecken",
+        inputError: "Du måste skicka minst ett tecken och får heller inte överskrida 200",
       })
     }else{
       socket.emit("message", {
@@ -79,16 +79,30 @@ class App extends Component {
           this.setState({ messages: [...this.state.messages, response.data.newMessage], inputError: ""});
           console.log(response);
       });
-  
       this.setState({message: ""});
-  
     }
-
   }
   render() {
     return (
       <div className="app">
-        {this.state.login === true ? <Login onChangeUsername={this.onChangeUsername} username={this.state.username} onLogin={this.onLogin} inputError={this.state.inputError} /> : <Chat onChangeMessage={this.onChangeMessage} message={this.state.message} messages={this.state.messages} onSend={this.onSend} username={this.state.username} onLogin={this.onLogin} inputError={this.state.inputError} /> }
+        {this.state.login === true ? 
+          <Login
+            onChangeUsername={this.onChangeUsername} 
+            username={this.state.username} 
+            onLogin={this.onLogin} 
+            inputError={this.state.inputError} /> 
+          
+            : 
+        
+          <Chat 
+            onChangeMessage={this.onChangeMessage} 
+            message={this.state.message} 
+            messages={this.state.messages} 
+            onSend={this.onSend} 
+            username={this.state.username} 
+            onLogin={this.onLogin} 
+            inputError={this.state.inputError} /> 
+        }
       </div>
     );
   }

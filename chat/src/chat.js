@@ -53,6 +53,7 @@ class Chat extends Component{
                     </div>
                     
                     <div className = "chat__inputfield__container">
+                    
                         <input className="chat__inputfield__input" type="text" value={this.props.message} onChange={this.props.onChangeMessage} minLength="1" maxLength="200" required></input>
                         <button className="chat__inputfield__sendButton" onClick={this.props.onSend}>Send</button>
                     </div>
